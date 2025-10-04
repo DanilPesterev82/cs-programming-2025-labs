@@ -14,5 +14,5 @@ https://github.com/DanilPesterev82/cs-programming-2025-labs/blob/main/labs/lab2/
 
 
 
-!\[патрик](labs/lab2/patrik.jpg)
+!\[патрик](labs/lab2/patrik)
 
