@@ -1,5 +1,7 @@
 ﻿Расписание на 3 недели группы БИС-25-3
 
+Всего пар: 43
+
 timetable\_1w:
 
 https://github.com/DanilPesterev82/cs-programming-2025-labs/blob/main/labs/lab2/timetable\_1w.md
