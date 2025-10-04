@@ -13,3 +13,12 @@ https://github.com/DanilPesterev82/cs-programming-2025-labs/blob/main/labs/lab2/
 timetable\_3w:
 
 https://github.com/DanilPesterev82/cs-programming-2025-labs/blob/main/labs/lab2/timetable\_3w.md
+
+
+
+---
+
+
+
+!\[Patrik](patrik.jpg)
+
