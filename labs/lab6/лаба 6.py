@@ -26,34 +26,31 @@ sum, years = deposit.split(' ')
 sum = int(sum)
 years = int(years)
 
-p = 0
-money = 0
-p_m = 0
-if sum < 30000:
-    print('Минимальная сумма вклада: 30 000')
-
-for i in range(1, years + 1):
-    ost = sum // 10000
-    p = ost * 0.3
-    ost = 0
-    if p > 5:
-        p = 5
-    print(f'p: {p}')
-    if i <= 3:
-        p += 3
-    elif i > 3 and i <= 6:
-        p += 5
-    elif i > 6:
-        p += 2
-    print(f'p2: {p}')
-    money += (sum * p)/100
-    p_m += money
-    sum += money
+def money_back(sum,years):
+    p = 0
     money = 0
-    print(f'sum: {sum}')
-    print(f'money: {money}')
+    p_m = 0
+    if sum < 30000:
+        return 'Минимальная сумма вклада: 30 000'
+    for i in range(1, years + 1):
+        ost = sum // 10000
+        p = ost * 0.3
+        ost = 0
+        if p > 5:
+            p = 5
+        if i <= 3:
+            p += 3
+        elif i > 3 and i <= 6:
+            p += 5
+        elif i > 6:
+            p += 2
+        money += (sum * p)/100
+        p_m += money
+        sum += money
+        money = 0
+    return p_m
 
-print(round(p_m, 2))
+print(f'результат: {round(money_back(sum, years), 2)}')
 
 # Задание 3
 d = input('введите диапазон, числа через пробел: ')
