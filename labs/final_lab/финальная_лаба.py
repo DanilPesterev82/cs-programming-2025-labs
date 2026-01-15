@@ -83,11 +83,11 @@ def print_stats():
     for key, value in levels.items():
         if current_level == key - 1:
             up_lvl = value
-    print(f'Опыт: {experience} из {up_lvl}\nУровень персонажа: {current_level}\n'
-          f'Жизни: {stats['HP']} из {stats['Max_HP']}\nАтака: {stats['Attack']}\n'
-          f'Защита: {stats['Defense']}\nЛовкость: {stats['Agility']}\n'
-          f'Интеллект: {stats['Intellect']}\nСкорость: {stats['Speed']}\n'
-          f'Рост: {Height}\nВес: {Weight}')
+    print(f"Опыт: {experience} из {up_lvl}\nУровень персонажа: {current_level}\n"
+          f"Жизни: {stats['HP']} из {stats['Max_HP']}\nАтака: {stats['Attack']}\n"
+          f"Защита: {stats['Defense']}\nЛовкость: {stats['Agility']}\n"
+          f"Интеллект: {stats['Intellect']}\nСкорость: {stats['Speed']}\n"
+          f"Рост: {Height}\nВес: {Weight}")
 print_stats()
 
 weapons_l1 = {
@@ -366,7 +366,7 @@ def open_inventory():
                 for stat, value in item.items():
                     if stat != "type" and stat != "name":
                         if stat == "HP":
-                            print(f'\033[32mВосстанавливает {item['HP']} здоровья\033[0m')
+                            print(f"\033[32mВосстанавливает {item['HP']} здоровья\033[0m")
                         else:
                             if value > 0:
                                 print(f"\033[32m{stat}: +{value}\033[0m")
@@ -420,7 +420,7 @@ def open_inventory():
                 elif choice == 1:
                     if equipment[slot]:
                         inventory.append(equipment[slot])
-                        print(f'Предмет \033[4m{equipment[slot]['name']}\033[0m снят')
+                        print(f"Предмет \033[4m{equipment[slot]['name']}\033[0m снят")
 
                     equipment[slot] = item
                     inventory.remove(item)
@@ -524,7 +524,7 @@ def battle_room():
               'Первый удар за \033[32mвами\033[0m')
     else:
         print(f'Противник оказался быстрее\n'
-              f'\033[31m{enemy['name']}\033[0m делает первый удар')
+              f"\033[31m{enemy['name']}\033[0m делает первый удар")
 
     while stats['HP'] > 0 and enemy['HP'] > 0:
         if player_turn:
@@ -557,7 +557,7 @@ def battle_room():
             input('\033[36mEnter >> \033[0m')
             break
         input('\033[36mEnter >> \033[0m')
-        print(f'{enemy['name']} атакует')
+        print(f"{enemy['name']} атакует")
         atk = calculate_enemy_damage(enemy['Attack'])
         stats['HP'] -= atk
         print(f'Вы получили {atk} урона')
