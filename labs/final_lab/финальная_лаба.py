@@ -6,18 +6,6 @@ level_point = 0
 current_level = 0
 levels = {1: 10, 2: 23, 3: 49, 4: 108, 5: 226, 6: 470, 7: 1000, 8: 2101, 9: 4333}
 
-base_stats = {
-    "Max_HP": random.randint(80, 100),
-    "Attack": random.randint(5, 13),
-    "Defense": random.randint(0, 5),
-    "Agility": random.randint(8, 18),
-    "Intellect": random.randint(1, 10),
-    "Speed": random.randint(1, 5)
-}
-
-Height = 0
-Weight = 0
-
 def choice_error(text, min_value, max_value):
     while True:
         try:
@@ -32,7 +20,20 @@ def choice_error(text, min_value, max_value):
 
         return choice
 
-rase = choice_error('какую рассу вы выберите?\n(1) Человек\n(2) Эльф\n(3) Дварф\n\033[36m>> \033[0m', 1, 3)
+base_stats = {
+    "Max_HP": random.randint(80, 100),
+    "Attack": random.randint(5, 13),
+    "Defense": random.randint(0, 5),
+    "Agility": random.randint(8, 18),
+    "Intellect": random.randint(1, 10),
+    "Speed": random.randint(1, 5)
+}
+
+Height = 0
+Weight = 0
+
+rase = choice_error('какую рассу вы выберите?\n(1) Человек\n'
+                    '(2) Эльф\n(3) Дварф\n\033[36m>> \033[0m', 1, 3)
 
 if rase == 1:
     print('Вы выбрали Человескую рассу\n'
@@ -193,7 +194,8 @@ dungeon_items = {
     "Пояс наёмного убийцы": {"type": "passive", "Max_HP": 15, "Attack": 4},
     "Пояс бандита": {"type": "passive", "Max_HP": 10, "Attack": 1},
     "Пояс силача": {"type": "passive", "Max_HP": 20, "Attack": 6},
-    "Драконий коготь": {"type": "passive", "Defense": 2, "Attack": 3, "Speed": 1, "Intellect": 2, "Agility": 3, "Max_HP": 8},
+    "Драконий коготь": {"type": "passive", "Defense": 2, "Attack": 3, "Speed": 1, "Intellect": 2,
+                        "Agility": 3, "Max_HP": 8},
     "Ловец снов": {"type": "passive", "Speed": 1, "Agility": 3, "Intellect": 4},
     "Реликт в камне": {"type": "passive", "Max_HP": 3, "Attack": 2}
 }
@@ -251,7 +253,7 @@ equipment = {
 
 def recalculation_stats():
     global stats
-    current_hp = stats.get("HP", None)
+    current_hp = stats.get("HP")
     stats = base_stats.copy()
 
     for slot, item in equipment.items():
@@ -266,10 +268,7 @@ def recalculation_stats():
                 if stat != "type" and stat != "name":
                     stats[stat] += value
 
-    if current_hp is None:
-        stats["HP"] = stats["Max_HP"]
-    else:
-        stats["HP"] = min(current_hp, stats["Max_HP"])
+    stats["HP"] = min(current_hp, stats["Max_HP"])
 
 def add_to_inventory(item_name):
 
@@ -448,7 +447,8 @@ def chill_room():
                     while level_point >= 1:
                         print(f'Доступные очки: {level_point}')
                         lvl_up = choice_error('(1) +2 к атаке\n(2) +5 к максимальному здоровью\n'
-                                           '(3) +2 к защите\n(4) +0.5 к скорости\n(5) +3 к ловкости\n\033[36m>> \033[0m', 1, 5)
+                                              '(3) +2 к защите\n(4) +0.5 к скорости\n(5) +3 к ловкости\n'
+                                              '\033[36m>> \033[0m', 1, 5)
                         if lvl_up == 1:
                             base_stats['Attack'] += 2
                         elif lvl_up == 2:
@@ -470,6 +470,23 @@ def chill_room():
         else:
             print('Отходя от уютного костра, вы продолжаете путь')
             break
+
+def random_enemy(lvl_room_now):
+    if lvl_room_now == 1:
+        name, data = random.choice(list(enemies_l1.items()))
+    elif lvl_room_now == 2:
+        name, data = random.choice(list(enemies_l2.items()))
+    elif lvl_room_now == 3:
+        name, data = random.choice(list(enemies_l3.items()))
+    elif lvl_room_now == 4:
+        name, data = random.choice(list(enemies_l4.items()))
+    enemy = data.copy()
+    enemy['name'] = name
+    return enemy
+
+def random_drop_enemy_item():
+    enemy_drop, stat = random.choice(list(enemy_items.items()))
+    return enemy_drop
 
 def calculate_enemy_damage(atk_enemy):
     damage = atk_enemy - stats['Defense']
@@ -551,7 +568,8 @@ def battle_room():
                     current_level = lvl
                     level_point += 1
                     print(f'Уровень персонажа \033[32mповышен\033[0m\n'
-                          f'Текущий уровень: \033[32m{current_level}\033[0m\nОчки уровня: \033[32m+1\033[0m')
+                          f'Текущий уровень: \033[32m{current_level}\033[0m\n'
+                          f'Очки уровня: \033[32m+1\033[0m')
 
         if enemy['HP'] <= 0:
             input('\033[36mEnter >> \033[0m')
@@ -567,6 +585,19 @@ def battle_room():
             player_alive = False
             print('\033[31mСмерть\033[0m настигла вас')
             break
+
+def random_item(lvl_room_now):
+    if lvl_room_now == 1:
+        weapons = list(weapons_l1.keys())
+        armors = list(armors_l1_2.keys())
+    elif lvl_room_now == 2:
+        weapons = list(weapons_l2.keys())
+        armors = list(armors_l1_2.keys())
+    elif lvl_room_now == 3:
+        weapons = list(weapons_l3.keys())
+        armors = list(armors_l3.keys())
+    pool = list(dungeon_items.keys()) + weapons + armors
+    return random.choice(pool)
 
 def chest_room():
     global lvl_room_now
@@ -588,36 +619,6 @@ def chest_room():
         input('\033[36mПродолжить путь Enter >> \033[0m')
         return
 
-def random_enemy(lvl_room_now):
-    if lvl_room_now == 1:
-        name, data = random.choice(list(enemies_l1.items()))
-    elif lvl_room_now == 2:
-        name, data = random.choice(list(enemies_l2.items()))
-    elif lvl_room_now == 3:
-        name, data = random.choice(list(enemies_l3.items()))
-    elif lvl_room_now == 4:
-        name, data = random.choice(list(enemies_l4.items()))
-    enemy = data.copy()
-    enemy['name'] = name
-    return enemy
-
-def random_drop_enemy_item():
-    enemy_drop, stat = random.choice(list(enemy_items.items()))
-    return enemy_drop
-
-def random_item(lvl_room_now):
-    if lvl_room_now == 1:
-        weapons = list(weapons_l1.keys())
-        armors = list(armors_l1_2.keys())
-    elif lvl_room_now == 2:
-        weapons = list(weapons_l2.keys())
-        armors = list(armors_l1_2.keys())
-    elif lvl_room_now == 3:
-        weapons = list(weapons_l3.keys())
-        armors = list(armors_l3.keys())
-    pool = list(dungeon_items.keys()) + weapons + armors
-    return random.choice(pool)
-
 def random_room():
     rooms = ['враг', 'сундук', 'отдых']
     room = random.choice(rooms)
@@ -638,14 +639,13 @@ def dungeon():
     input('\033[36mEnter >> \033[0m')
     while player_alive == True:
 
-        if player_alive == False:
-            break
-
         for lvl, room_cnt in lvl_room.items():
             if room >= room_cnt and lvl_room_now < lvl:
                 lvl_room_now = lvl
-                print(f"\033[35m_____________________________\033[0m\nСложность подземелья повышена\n"
-                      f"Уровень подземелья \033[35m{lvl_room_now}\n_____________________________\033[0m")
+                print(f"\033[35m_____________________________\033[0m\n"
+                      f"Сложность подземелья повышена\n"
+                      f"Уровень подземелья \033[35m{lvl_room_now}\n"
+                      f"_____________________________\033[0m")
 
         print('Вы наткнулись на развику...')
         left_room, visible_left_room = random_room()
