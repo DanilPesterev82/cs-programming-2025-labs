@@ -56,7 +56,7 @@ reports = [
 ]
 ls = list(filter(lambda x: 'http://' in x['text'] or 'https://' in x['text'], reports))
 for report in ls:
-    report['text'] = re.sub('https?://\\S+', '[ДАННЫЕ УДАЛЕНЫ]', report['text'])
+    report['text'] = re.sub(r'https?://\S+', '[ДАННЫЕ УДАЛЕНЫ]', report['text'])
     print(report)
 
 # Задание 6
